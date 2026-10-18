@@ -204,6 +204,7 @@ class GamePackageManager private constructor(
         val target = File(outputDir, "libc++_shared.so")
         if (target.isFile && target.length() > 0L) return
 
+        val abi = getDeviceAbi()
         val launcherNativeDir = context.applicationInfo.nativeLibraryDir?.let(::File)
         val nativeCopy = launcherNativeDir?.let { File(it, "libc++_shared.so") }
         if (nativeCopy != null && nativeCopy.isFile && nativeCopy.length() > 0L) {
@@ -215,26 +216,39 @@ class GamePackageManager private constructor(
                 }
                 target.delete()
             } catch (error: Exception) {
+                target.delete()
                 Log.w(TAG, "Could not copy launcher libc++ runtime: ${error.message}")
+                report("Launcher native libc++ recovery failed: ${error.message}")
             }
         }
 
-        val launcherApk = File(context.applicationInfo.sourceDir ?: "")
-        if (!launcherApk.isFile) return
-        val abi = getDeviceAbi()
-        try {
-            ZipFile(launcherApk).use { zip ->
-                val entry = zip.getEntry("lib/$abi/libc++_shared.so") ?: return@use
-                zip.getInputStream(entry).use { copyStreamToReadOnlyFile(it, target) }
-                if (!processNativeImage(target, true)) {
+        // On split APK installs the native runtime may live in a configuration split,
+        // not in sourceDir (base.apk). Inspect every installed launcher APK.
+        val appInfo = context.applicationInfo
+        val apkPaths = buildList {
+            appInfo.sourceDir?.let(::add)
+            appInfo.splitSourceDirs?.let { addAll(it) }
+        }.distinct()
+        for (apkPath in apkPaths) {
+            val apk = File(apkPath)
+            if (!apk.isFile) continue
+            try {
+                ZipFile(apk).use { zip ->
+                    val entry = zip.getEntry("lib/$abi/libc++_shared.so") ?: return@use
+                    zip.getInputStream(entry).use { copyStreamToReadOnlyFile(it, target) }
+                    if (processNativeImage(target, true)) {
+                        report("Recovered libc++_shared.so from launcher APK ${apk.name} for $abi")
+                        return
+                    }
                     target.delete()
-                    throw IOException("Native runtime validation failed")
+                    Log.w(TAG, "Rejected libc++ runtime from ${apk.name}: native image validation failed")
                 }
-                report("Recovered libc++_shared.so from launcher APK for $abi")
+            } catch (error: Exception) {
+                target.delete()
+                Log.w(TAG, "Could not extract launcher libc++ runtime from ${apk.name}: ${error.message}")
             }
-        } catch (error: Exception) {
-            Log.w(TAG, "Could not extract launcher libc++ runtime for $abi: ${error.message}")
         }
+        report("Unable to recover libc++_shared.so for ABI $abi; checked nativeLibraryDir and ${apkPaths.size} launcher APK(s)")
     }
 
     private fun collectApkFiles(): List<File> {
@@ -707,7 +721,7 @@ class GamePackageManager private constructor(
 
     companion object {
         private const val TAG = "GamePackageManager"
-        private const val EXTRACTOR_VERSION = 3
+        private const val EXTRACTOR_VERSION = 4
 
         @Volatile
         private var instance: GamePackageManager? = null
