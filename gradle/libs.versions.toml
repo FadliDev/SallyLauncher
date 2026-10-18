@@ -1,4 +1,5 @@
 [versions]
+documentfile = "1.0.1"
 agp = "8.13.2"
 bcprovJdk15on = "1.70"
 bedrockConnection = "3.0.0.Beta10-SNAPSHOT"
@@ -36,6 +37,7 @@ dynamicanimation = "1.1.0"
 xcrash = "3.1.2"
 
 [libraries]
+androidx-documentfile = { module = "androidx.documentfile:documentfile", version.ref = "documentfile" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }

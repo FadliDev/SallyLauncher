@@ -144,6 +144,7 @@ dependencies {
     implementation libs.commons.gson
     implementation libs.core.splashscreen
     implementation libs.appcompat
+    implementation libs.androidx.documentfile
     implementation libs.conscrypt.android
     implementation libs.constraintlayout
     implementation libs.material

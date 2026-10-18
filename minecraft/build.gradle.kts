@@ -69,6 +69,7 @@ dependencies {
         exclude(group = "stax", module = "stax-api")
     }
     implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.documentfile)
     implementation(libs.androidx.browser)
 
     implementation(libs.pkix)
