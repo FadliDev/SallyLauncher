@@ -182,6 +182,10 @@ class GamePackageManager private constructor(
             val apkPaths = apkFiles.map { it.absolutePath }
             apkPaths.forEach { extractFromApk(it, outputDir, getDeviceAbi()) }
         }
+        // libc++_shared.so is often bundled with the launcher NDK runtime rather than
+        // Minecraft's APK. Recover it from the launcher APK/nativeLibraryDir when the
+        // game package does not ship its own copy.
+        ensureLauncherCppRuntime(outputDir)
         verifyLibraries(outputDir)
 
         if (cacheRequiredLibs.all { File(outputDir, it).let { f -> f.exists() && f.length() > 0 } }) {
@@ -193,6 +197,43 @@ class GamePackageManager private constructor(
                 Log.w(TAG, "Failed to write extraction manifest: ${e.message}")
                 report("Failed to write extraction manifest: ${e.message}")
             }
+        }
+    }
+
+    private fun ensureLauncherCppRuntime(outputDir: File) {
+        val target = File(outputDir, "libc++_shared.so")
+        if (target.isFile && target.length() > 0L) return
+
+        val launcherNativeDir = context.applicationInfo.nativeLibraryDir?.let(::File)
+        val nativeCopy = launcherNativeDir?.let { File(it, "libc++_shared.so") }
+        if (nativeCopy != null && nativeCopy.isFile && nativeCopy.length() > 0L) {
+            try {
+                nativeCopy.inputStream().use { copyStreamToReadOnlyFile(it, target) }
+                if (processNativeImage(target, true)) {
+                    report("Recovered libc++_shared.so from launcher native libraries")
+                    return
+                }
+                target.delete()
+            } catch (error: Exception) {
+                Log.w(TAG, "Could not copy launcher libc++ runtime: ${error.message}")
+            }
+        }
+
+        val launcherApk = File(context.applicationInfo.sourceDir ?: "")
+        if (!launcherApk.isFile) return
+        val abi = getDeviceAbi()
+        try {
+            ZipFile(launcherApk).use { zip ->
+                val entry = zip.getEntry("lib/$abi/libc++_shared.so") ?: return@use
+                zip.getInputStream(entry).use { copyStreamToReadOnlyFile(it, target) }
+                if (!processNativeImage(target, true)) {
+                    target.delete()
+                    throw IOException("Native runtime validation failed")
+                }
+                report("Recovered libc++_shared.so from launcher APK for $abi")
+            }
+        } catch (error: Exception) {
+            Log.w(TAG, "Could not extract launcher libc++ runtime for $abi: ${error.message}")
         }
     }
 
@@ -666,7 +707,7 @@ class GamePackageManager private constructor(
 
     companion object {
         private const val TAG = "GamePackageManager"
-        private const val EXTRACTOR_VERSION = 2
+        private const val EXTRACTOR_VERSION = 3
 
         @Volatile
         private var instance: GamePackageManager? = null

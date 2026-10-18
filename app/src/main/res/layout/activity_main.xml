@@ -28,12 +28,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
@@ -57,9 +56,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:layout_marginTop="12dp"
+                    android:gravity="end"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -178,14 +178,14 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginTop="12dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <!-- Mods Section -->
             <LinearLayout
                 android:id="@+id/mod_card"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/card_background"
                 android:orientation="vertical"
@@ -458,9 +458,9 @@
             <!-- Miscellaneous Section -->
             <LinearLayout
                 android:id="@+id/misc_card"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="0dp"
                 android:layout_weight="1"
                 android:background="@drawable/card_background"
                 android:orientation="vertical"
