@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Design 3 icon: export-variant -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M 12 1 8 5 h 3 v 9 h 2 V 5 h 3 m 2 18 H 6 a 2 2 0 0 1 -2 -2 V 9 a 2 2 0 0 1 2 -2 h 3 v 2 H 6 v 12 h 12 V 9 h -3 V 7 h 3 a 2 2 0 0 1 2 2 v 12 a 2 2 0 0 1 -2 2" />
+</vector>

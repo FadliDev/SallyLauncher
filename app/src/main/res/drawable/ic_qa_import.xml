@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Design 3 icon: import -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="@color/qa_icon_color"
+        android:pathData="m 14 12 -4 -4 v 3 H 2 v 2 h 8 v 3 m 10 2 V 6 a 2 2 0 0 0 -2 -2 H 6 a 2 2 0 0 0 -2 2 v 3 h 2 V 6 h 12 v 12 H 6 v -3 H 4 v 3 a 2 2 0 0 0 2 2 h 12 a 2 2 0 0 0 2 -2" />
+</vector>

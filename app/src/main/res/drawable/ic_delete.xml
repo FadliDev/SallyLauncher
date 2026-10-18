@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Design 3 icon: delete -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M 19 4 h -3.5 l -1 -1 h -5 l -1 1 H 5 v 2 h 14 M 6 19 a 2 2 0 0 0 2 2 h 8 a 2 2 0 0 0 2 -2 V 7 H 6 z" />
+</vector>

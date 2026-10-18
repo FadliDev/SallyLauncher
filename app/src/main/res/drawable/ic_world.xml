@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Design 3 icon: earth -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#000000"
+        android:pathData="M 17.9 17.39 c -.26 -.8 -1.01 -1.39 -1.9 -1.39 h -1 v -3 a 1 1 0 0 0 -1 -1 H 8 v -2 h 2 a 1 1 0 0 0 1 -1 V 7 h 2 a 2 2 0 0 0 2 -2 v -.41 a 7.984 7.984 0 0 1 2.9 12.8 M 11 19.93 c -3.95 -.49 -7 -3.85 -7 -7.93 0 -.62 .08 -1.22 .21 -1.79 L 9 15 v 1 a 2 2 0 0 0 2 2 m 1 -16 A 10 10 0 0 0 2 12 a 10 10 0 0 0 10 10 10 10 0 0 0 10 -10 A 10 10 0 0 0 12 2" />
+</vector>

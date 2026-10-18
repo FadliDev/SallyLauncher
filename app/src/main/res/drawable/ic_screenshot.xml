@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Design 3 icon: cellphone-screenshot -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#000000"
+        android:pathData="M 7 1 a 2 2 0 0 0 -2 2 v 18 a 2 2 0 0 0 2 2 h 10 a 2 2 0 0 0 2 -2 V 3 a 2 2 0 0 0 -2 -2 z m 0 3 h 10 v 16 H 7 z m 2 2 v 4 h 1.5 V 7.5 H 13 V 6 z m 4.5 8 v 2.5 H 11 V 18 h 4 v -4 z" />
+</vector>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Design 3 icon: white-balance-sunny -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="m 3.55 19.09 1.41 1.41 1.8 -1.79 -1.42 -1.42 M 12 6 c -3.31 0 -6 2.69 -6 6 s 2.69 6 6 6 6 -2.69 6 -6 c 0 -3.32 -2.69 -6 -6 -6 m 8 7 h 3 v -2 h -3 m -2.76 7.71 1.8 1.79 1.41 -1.41 -1.79 -1.8 M 20.45 5 l -1.41 -1.4 -1.8 1.79 1.42 1.42 M 13 1 h -2 v 3 h 2 M 6.76 5.39 4.96 3.6 3.55 5 l 1.79 1.81 z M 1 13 h 3 v -2 H 1 m 12 9 h -2 v 3 h 2" />
+</vector>

@@ -1,0 +1,96 @@
+name: Build Sally Launcher
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      # Fallback: if the repo was pushed without submodule links, fetch the native deps here.
+      - name: Fetch native submodules if missing
+        run: |
+          set -e
+          cpp=app/src/main/cpp
+          if [ -z "$(ls -A $cpp/preloader 2>/dev/null)" ]; then
+            rm -rf $cpp/preloader
+            git clone --depth 1 --recursive https://github.com/LiteLDev/preloader-android $cpp/preloader
+          fi
+          if [ -z "$(ls -A $cpp/libHttpClient 2>/dev/null)" ]; then
+            rm -rf $cpp/libHttpClient
+            git clone --depth 1 --recursive https://github.com/microsoft/libHttpClient $cpp/libHttpClient
+          fi
+
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: temurin
+          cache: gradle
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
+
+      - name: Install SDK packages
+        run: |
+          yes | sdkmanager --licenses > /dev/null
+          sdkmanager "build-tools;35.0.0" "platforms;android-36" "cmake;3.22.1"
+
+      - name: Setup Android NDK r28c
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r28c
+          link-to-sdk: true
+
+      - name: Setup Xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: "2.9.9"
+
+      - name: Optional CurseForge API key
+        env:
+          CF_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
+        run: echo "curseforge.api_key=${CF_API_KEY}" >> local.properties
+
+      - name: Build APKs
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleDebug assembleRelease --stacktrace
+
+      - name: Upload debug APK (installable)
+        uses: actions/upload-artifact@v4
+        with:
+          name: SallyLauncher-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+
+      - name: Upload unsigned release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SallyLauncher-release-unsigned-apk
+          path: app/build/outputs/apk/release/*.apk
+
+      # Tag release (git tag v1.0.0 && git push --tags): publishes the debug-signed APK.
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          cp app/build/outputs/apk/debug/*.apk "SallyLauncher-${GITHUB_REF_NAME}.apk"
+          gh release create "$GITHUB_REF_NAME" "SallyLauncher-${GITHUB_REF_NAME}.apk" \
+            --title "Sally Launcher ${GITHUB_REF_NAME}" --generate-notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

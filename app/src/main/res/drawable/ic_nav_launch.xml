@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Design 3 icon: rocket-launch -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#000000"
+        android:pathData="m 13.13 22.19 -1.63 -3.83 c 1.57 -.58 3.04 -1.36 4.4 -2.27 z M 5.64 12.5 l -3.83 -1.63 6.1 -2.77 C 7 9.46 6.22 10.93 5.64 12.5 M 21.61 2.39 S 16.66 .269 11 5.93 c -2.19 2.19 -3.5 4.6 -4.35 6.71 -.28 .75 -.09 1.57 .46 2.13 l 2.13 2.12 c .55 .56 1.37 .74 2.12 .46 A 19.1 19.1 0 0 0 18.07 13 c 5.66 -5.66 3.54 -10.61 3.54 -10.61 m -7.07 7.07 c -.78 -.78 -.78 -2.05 0 -2.83 s 2.05 -.78 2.83 0 c .77 .78 .78 2.05 0 2.83 s -2.05 .78 -2.83 0 m -5.66 7.07 -1.41 -1.41 z M 6.24 22 l 3.64 -3.64 c -.34 -.09 -.67 -.24 -.97 -.45 L 4.83 22 z M 2 22 h 1.41 l 4.77 -4.76 -1.42 -1.41 L 2 20.59 z m 0 -2.83 4.09 -4.08 c -.21 -.3 -.36 -.62 -.45 -.97 L 2 17.76 z" />
+</vector>
